@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   // For GitHub Pages: replace 'mein-meera' with your actual repo name
   // If using a custom domain, set site to your domain and remove base
-  site: 'https://your-username.github.io',
+  site: 'https://gorakh-singh.github.io',
   base: '/mein-meera',
 
   output: 'static',
