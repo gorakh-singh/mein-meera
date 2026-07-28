@@ -1,0 +1,80 @@
+---
+export interface Props {
+  quote: string;
+  author?: string;
+  postSlug?: string;
+  imageUrl?: string;
+}
+
+const { quote, author, postSlug, imageUrl = 'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=1600&h=900&fit=crop&q=80' } = Astro.props;
+---
+
+<section class="pullquote-band" style={`background-image: url('${imageUrl}')`}>
+  <div class="overlay"></div>
+  <div class="content">
+    <blockquote>
+      <p>"{quote}"</p>
+      {author && <footer>&mdash; {author}</footer>}
+    </blockquote>
+    {postSlug && (
+      <a href={`/${postSlug}`} class="read-more">Read the story</a>
+    )}
+  </div>
+</section>
+
+<style>
+  .pullquote-band {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin-top: var(--space-3xl);
+    margin-bottom: var(--space-3xl);
+  }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.6);
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: var(--content-width);
+    text-align: center;
+    padding: var(--space-2xl) var(--gutter);
+    color: var(--color-cream);
+  }
+  blockquote {
+    margin: 0;
+  }
+  blockquote p {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    line-height: 1.3;
+    margin-bottom: var(--space-md);
+  }
+  blockquote footer {
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    color: var(--color-cream-dark);
+  }
+  .read-more {
+    display: inline-block;
+    margin-top: var(--space-lg);
+    font-family: var(--font-ui);
+    color: var(--color-cream);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .read-more:focus-visible {
+    outline: 2px solid var(--color-green-light);
+    border-radius: var(--border-radius);
+    outline-offset: 4px;
+  }
+</style>

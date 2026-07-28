@@ -1,0 +1,107 @@
+---
+---
+<section class="newsletter-block">
+  <div class="inner">
+    <h2>Join the Newsletter</h2>
+    <p>A quiet note in your inbox with new recipes, travel stories, and gentle thoughts. No spam, ever.</p>
+    
+    <form action="#" method="POST" class="subscribe-form">
+      <!-- TODO: Wire to Buttondown/ConvertKit endpoint -->
+      <label for="email" class="sr-only">Email address</label>
+      <input type="email" id="email" name="email" placeholder="Your email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .newsletter-block {
+    background-color: var(--color-cream-dark);
+    padding: var(--space-3xl) var(--gutter);
+    text-align: center;
+    border-radius: var(--border-radius);
+    margin: var(--space-3xl) 0;
+  }
+  .inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    color: var(--color-ink);
+    margin: 0 0 var(--space-sm);
+  }
+  p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-ink-light);
+    margin: 0 0 var(--space-xl);
+  }
+  .subscribe-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  input[type="email"] {
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-ink-muted);
+    border-radius: var(--border-radius);
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    background: var(--color-cream);
+  }
+  input[type="email"]:focus {
+    outline: 2px solid var(--color-green);
+    border-color: transparent;
+  }
+  button {
+    background-color: var(--color-terracotta);
+    color: var(--color-cream);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: var(--space-sm) var(--space-md);
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-gentle);
+  }
+  button:hover {
+    background-color: var(--color-terracotta-light);
+  }
+  button:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 600px) {
+    .subscribe-form {
+      flex-direction: row;
+    }
+    input[type="email"] {
+      flex: 1;
+    }
+    button {
+      flex: 0 0 auto;
+    }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    button {
+      transition: none;
+    }
+  }
+</style>

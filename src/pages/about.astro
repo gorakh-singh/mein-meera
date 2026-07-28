@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="About Meera" description="About Meera Singh">
+  <div class="container about-page">
+    <div class="portrait">
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80" alt="Meera Singh" />
+    </div>
+    <div class="content prose">
+      <h1>Hello, I'm Meera.</h1>
+      <p>Welcome to my corner of the internet. I'm a writer, traveler, and enthusiastic home cook based somewhere between the mountains and the sea.</p>
+      <p>This journal is a collection of my thoughts, the places I've been, and the meals I've shared. It's a place for slow living, careful observation, and good food.</p>
+      <h2>Get in touch</h2>
+      <p>I'd love to hear from you. Drop me a line at <a href="mailto:hello@meinmeera.com">hello@meinmeera.com</a>.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    padding: var(--space-3xl) 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .about-page {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .portrait img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    margin-bottom: var(--space-md);
+  }
+</style>

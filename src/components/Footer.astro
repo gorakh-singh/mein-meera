@@ -1,0 +1,114 @@
+---
+---
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h2 class="footer-logo">Mein Meera</h2>
+      <p class="tagline">Thoughts on travel, food, and living well.</p>
+    </div>
+    
+    <div class="footer-links">
+      <div class="link-col">
+        <h3 class="col-heading">Explore</h3>
+        <ul>
+          <li><a href="/travel">Travel</a></li>
+          <li><a href="/recipes">Recipes</a></li>
+          <li><a href="/essays">Essays</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </div>
+      
+      <div class="link-col">
+        <h3 class="col-heading">Subscribe</h3>
+        <ul>
+          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="/newsletter">Newsletter</a></li>
+        </ul>
+      </div>
+      
+      <div class="link-col">
+        <h3 class="col-heading">Elsewhere</h3>
+        <ul class="social-links">
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Threads</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 Meera Singh</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    padding: var(--space-3xl) var(--gutter) var(--space-md);
+  }
+  .footer-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xl);
+    justify-content: space-between;
+  }
+  .footer-brand {
+    flex: 1 1 300px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    margin: 0 0 var(--space-xs);
+  }
+  .tagline {
+    font-family: var(--font-body);
+    color: var(--color-cream-dark);
+  }
+  .footer-links {
+    display: flex;
+    gap: var(--space-2xl);
+    flex-wrap: wrap;
+  }
+  .link-col {
+    min-width: 120px;
+  }
+  .col-heading {
+    font-family: var(--font-ui);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-green-light);
+    margin-bottom: var(--space-md);
+  }
+  .link-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .link-col a {
+    color: var(--color-cream);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+  }
+  .link-col a:hover {
+    text-decoration: underline;
+  }
+  .footer-bottom {
+    max-width: var(--max-width);
+    margin: var(--space-2xl) auto 0;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-ink-light);
+    text-align: center;
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    color: var(--color-ink-muted);
+  }
+</style>

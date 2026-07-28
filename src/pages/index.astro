@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategoryFilter from '../components/CategoryFilter.astro';
+import FeaturedCard from '../components/FeaturedCard.astro';
+import PostCard from '../components/PostCard.astro';
+import RecipeCard from '../components/RecipeCard.astro';
+import Carousel from '../components/Carousel.astro';
+import PullQuoteBand from '../components/PullQuoteBand.astro';
+import NewsletterBlock from '../components/NewsletterBlock.astro';
+import { getCollection } from 'astro:content';
+
+const essays = (await getCollection('essays', ({data}) => !data.draft)).map(p => ({...p, collection: 'essays' as const}));
+const travel = (await getCollection('travel', ({data}) => !data.draft)).map(p => ({...p, collection: 'travel' as const}));
+const recipes = (await getCollection('recipes', ({data}) => !data.draft)).map(p => ({...p, collection: 'recipes' as const}));
+
+const allPosts = [...essays, ...travel, ...recipes].sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latestPosts = allPosts.slice(0, 7);
+const featured = latestPosts[0];
+const rest = latestPosts.slice(1);
+const recentTravel = travel.sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
+const recentRecipes = recipes.sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Mein Meera" description="Notes from the road, the kitchen, and somewhere in between">
+  <!-- 1. Hero -->
+  <section class="hero-section" aria-label="Site introduction">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-tagline">Notes from the road, the kitchen, and somewhere in between</p>
+      <h1 class="hero-title">Mein Meera</h1>
+    </div>
+  </section>
+
+  <!-- 2. Category filter -->
+  <div class="container filter-container">
+    <CategoryFilter activeCategory="" />
+  </div>
+
+  <!-- 3. Latest -->
+  <section class="section" aria-labelledby="latest-heading">
+    <div class="container">
+      <span class="eyebrow">Latest</span>
+      <h2 id="latest-heading" class="section-headline">Fresh stories, recently published</h2>
+      {featured && (
+        <div class="featured-wrapper">
+          <FeaturedCard post={featured} />
+        </div>
+      )}
+      <div class="post-grid">
+        {rest.map(post => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. From the Kitchen -->
+  <section class="kitchen-section" aria-labelledby="kitchen-heading">
+    <div class="container">
+      <span class="eyebrow">From the kitchen</span>
+      <div class="header-row">
+        <h2 id="kitchen-heading" class="section-headline">Recent recipes</h2>
+        <a href="/recipes/" class="view-all">
+          See all recipes
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <Carousel>
+        {recentRecipes.map(recipe => (
+          <div class="carousel-item">
+            <RecipeCard recipe={recipe} />
+          </div>
+        ))}
+      </Carousel>
+    </div>
+  </section>
+
+  <!-- 5. Pull-quote band -->
+  <PullQuoteBand
+    quote="You learn the lanes by their smells: sandalwood near the temples, frying oil near the chowk, jasmine where someone has strung flowers over a doorframe."
+    author="from Three days in Jaisalmer"
+    postSlug="travel/three-days-in-jaisalmer"
+  />
+
+  <!-- 6. On the Road -->
+  <section class="section" aria-labelledby="travel-heading">
+    <div class="container">
+      <span class="eyebrow">On the road</span>
+      <div class="header-row">
+        <h2 id="travel-heading" class="section-headline">Recent travels</h2>
+        <a href="/travel/" class="view-all">
+          See all travel
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="post-grid">
+        {recentTravel.map(post => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Newsletter -->
+  <section class="section">
+    <div class="container">
+      <NewsletterBlock />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero-section {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    min-height: 500px;
+    background-image: url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=2000&q=80');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 26, 26, 0.1) 0%,
+      rgba(26, 26, 26, 0.35) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    color: var(--color-cream);
+    padding: var(--gutter);
+  }
+  .hero-tagline {
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-md);
+    opacity: 0.85;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Category filter overlap */
+  .filter-container {
+    margin-top: calc(-1 * var(--space-xl));
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Section spacing */
+  .section {
+    padding: var(--space-section) 0;
+  }
+
+  /* Header row (heading + view all) */
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+  .header-row .section-headline {
+    margin-bottom: 0;
+  }
+
+  /* Featured card wrapper */
+  .featured-wrapper {
+    margin-bottom: var(--space-2xl);
+  }
+
+  /* Kitchen section background */
+  .kitchen-section {
+    background-color: rgba(229, 223, 208, 0.4);
+    padding: var(--space-section) 0;
+  }
+
+  /* Carousel items */
+  .carousel-item {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+  }
+</style>

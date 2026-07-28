@@ -1,0 +1,131 @@
+/* =============================================
+   MEIN MEERA — Print Stylesheet
+   For printing recipe pages cleanly.
+   ============================================= */
+
+@media print {
+  /* Hide non-essential elements */
+  .site-header,
+  .site-footer,
+  .post-hero,
+  .post-nav,
+  .related-posts,
+  .post-tags,
+  .newsletter-block,
+  .print-btn,
+  .search-modal,
+  .lightbox,
+  .category-filter,
+  nav,
+  .skip-link {
+    display: none !important;
+  }
+
+  /* Reset colours for print */
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  * {
+    color: black !important;
+    background: transparent !important;
+  }
+
+  /* Let content flow naturally */
+  .prose,
+  .recipe-body,
+  .recipe-columns {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Stack recipe columns for print */
+  .recipe-columns {
+    display: block;
+  }
+
+  .recipe-ingredients {
+    position: static;
+    margin-bottom: 2em;
+    page-break-inside: avoid;
+  }
+
+  /* Ingredient list */
+  .recipe-ingredients h3 {
+    font-size: 12pt;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
+
+  .recipe-ingredients li {
+    font-size: 10pt;
+    padding: 0.15em 0;
+  }
+
+  /* Method steps */
+  .recipe-method li {
+    font-size: 10pt;
+    padding: 0.5em 0 0.5em 2em;
+    border-bottom: 0.5pt solid #ccc;
+  }
+
+  .recipe-method li::before {
+    font-size: 11pt;
+    color: #999 !important;
+  }
+
+  /* Recipe meta strip */
+  .recipe-meta {
+    border: 0.5pt solid #ccc;
+    margin-bottom: 1.5em;
+  }
+
+  .recipe-meta__cell {
+    border-right: 0.5pt solid #ccc;
+  }
+
+  /* Notes */
+  .recipe-notes {
+    border: 0.5pt solid #ccc;
+    padding: 1em;
+    margin-top: 1.5em;
+  }
+
+  /* Title */
+  .post-header {
+    text-align: left;
+    padding: 0 0 1em;
+    border-bottom: 0.5pt solid #ccc;
+    margin-bottom: 1.5em;
+  }
+
+  .post-header__title {
+    font-size: 18pt;
+  }
+
+  /* Prevent awkward page breaks */
+  h2, h3 {
+    page-break-after: avoid;
+  }
+
+  img {
+    max-width: 3in;
+    page-break-inside: avoid;
+  }
+
+  /* Show URLs for links in print */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666 !important;
+  }
+
+  /* Page margins */
+  @page {
+    margin: 1.5cm;
+  }
+}

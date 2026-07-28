@@ -1,0 +1,108 @@
+---
+import FormattedDate from './FormattedDate.astro';
+
+export interface Props {
+  post: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      heroUrl: string;
+      date: Date;
+      tags?: string[];
+      [key: string]: unknown;
+    };
+    collection: string;
+  };
+}
+
+const { post } = Astro.props;
+const { title, description, heroUrl, date } = post.data;
+const slug = post.id;
+const collection = post.collection;
+---
+
+<a href={`/${collection}/${slug}/`} class="featured-card">
+  <div class="image-wrapper">
+    <img src={heroUrl} alt="" loading="lazy" />
+  </div>
+  <div class="content">
+    <span class="eyebrow">{collection}</span>
+    <h2 class="title">{title}</h2>
+    <p class="desc">{description}</p>
+    <FormattedDate date={date} />
+  </div>
+</a>
+
+<style>
+  .featured-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-ink);
+    gap: var(--space-lg);
+  }
+  .featured-card:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 4px;
+    border-radius: var(--border-radius);
+  }
+  .image-wrapper {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+  }
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-gentle);
+  }
+  .featured-card:hover .image-wrapper img {
+    transform: scale(1.03);
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .eyebrow {
+    font-family: var(--font-ui);
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-green);
+    margin-bottom: var(--space-xs);
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 400;
+    color: var(--color-ink);
+    margin: 0 0 var(--space-sm);
+    line-height: 1.25;
+  }
+  .desc {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-ink-light);
+    margin: 0 0 var(--space-md);
+    line-height: 1.6;
+  }
+
+  @media (min-width: 768px) {
+    .featured-card {
+      flex-direction: row;
+      gap: var(--space-xl);
+    }
+    .image-wrapper {
+      flex: 0 0 60%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .image-wrapper img { transition: none; }
+    .featured-card:hover .image-wrapper img { transform: none; }
+  }
+</style>

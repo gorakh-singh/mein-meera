@@ -1,0 +1,66 @@
+---
+import PostCard from './PostCard.astro';
+
+export interface Props {
+  posts: {
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      heroUrl: string;
+      date: Date;
+      tags?: string[];
+      [key: string]: unknown;
+    };
+    collection?: string;
+  }[];
+  collection?: string;
+}
+
+const { posts, collection } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="related-posts" aria-label="Related posts">
+    <p class="related-posts__eyebrow">More to read</p>
+    <h2 class="related-posts__heading">You might also like</h2>
+    <div class="related-posts__grid">
+      {posts.map((post) => (
+        <PostCard post={{ ...post, collection: post.collection || collection || 'essays' }} />
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-posts {
+    padding: var(--space-section) 0;
+  }
+  .related-posts__eyebrow {
+    font-family: var(--font-ui);
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-green);
+    margin-bottom: var(--space-md);
+  }
+  .related-posts__heading {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 400;
+    color: var(--color-ink);
+    margin-bottom: var(--space-xl);
+  }
+  .related-posts__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+  @media (max-width: 768px) {
+    .related-posts__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

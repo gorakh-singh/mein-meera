@@ -1,0 +1,111 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import PrevNext from '../components/PrevNext.astro';
+import RelatedPosts from '../components/RelatedPosts.astro';
+import Gallery from '../components/Gallery.astro';
+import { getReadingTime } from '../utils/reading-time';
+import { getCollection } from 'astro:content';
+
+const { entry, collection } = Astro.props;
+const { Content } = await render(entry);
+const readingTime = getReadingTime(entry.body || '');
+
+const allPosts = await getCollection(collection, ({ data }: any) => !data.draft);
+const sorted = allPosts.sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf());
+const currentIndex = sorted.findIndex((p: any) => p.id === entry.id);
+const next = currentIndex > 0 ? sorted[currentIndex - 1] : undefined;
+const prev = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : undefined;
+
+const related = sorted
+  .filter((p: any) => p.id !== entry.id && p.data.tags.some((t: string) => entry.data.tags.includes(t)))
+  .slice(0, 3);
+---
+<BaseLayout title={`${entry.data.title} — Mein Meera`} description={entry.data.description} image={entry.data.heroUrl} article={true}>
+  <article>
+    <!-- Hero image -->
+    <div class="post-hero">
+      <img class="post-hero__image" src={entry.data.heroUrl} alt="" loading="eager" />
+      <div class="post-hero__overlay"></div>
+    </div>
+
+    <!-- Post header -->
+    <header class="post-header">
+      <span class="post-header__eyebrow">
+        <a href={`/${collection}/`}>{collection}</a>
+      </span>
+      <h1 class="post-header__title">{entry.data.title}</h1>
+      {collection === 'travel' && (
+        <p class="post-header__place">{entry.data.place}, {entry.data.country} — {entry.data.tripDate}</p>
+      )}
+      <div class="post-header__meta">
+        <span>Meera Singh</span>
+        <span>·</span>
+        <span>{readingTime}</span>
+        <span>·</span>
+        <FormattedDate date={entry.data.date} />
+      </div>
+    </header>
+
+    <!-- Body -->
+    <div class="prose" data-pagefind-body>
+      <Content />
+    </div>
+
+    <!-- Gallery for travel posts -->
+    {collection === 'travel' && (
+      <div class="gallery-wrap">
+        <p class="gallery-eyebrow">Gallery</p>
+        <Gallery images={[
+          'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1515859005217-8a1f08870f59?auto=format&fit=crop&w=800&q=80',
+        ]} />
+      </div>
+    )}
+
+    <!-- Tags -->
+    <div class="post-tags">
+      {entry.data.tags.map((tag: string) => (
+        <a href={`/tags/${tag}/`} class="post-tag">{tag}</a>
+      ))}
+    </div>
+
+    <!-- Prev/Next -->
+    <div class="nav-wrap">
+      <PrevNext prev={prev} next={next} collection={collection} />
+    </div>
+
+    <!-- Related posts -->
+    {related.length > 0 && (
+      <div class="related-wrap">
+        <RelatedPosts posts={related} collection={collection} />
+      </div>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .gallery-wrap {
+    max-width: var(--wide-width);
+    margin: var(--space-section) auto;
+    padding: 0 var(--gutter);
+  }
+  .gallery-eyebrow {
+    font-family: var(--font-ui);
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-green);
+    margin-bottom: var(--space-md);
+  }
+  .nav-wrap,
+  .related-wrap {
+    max-width: var(--wide-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+</style>

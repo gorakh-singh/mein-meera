@@ -1,0 +1,24 @@
+{
+  "name": "mein-meera",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Mein Meera — a personal journal blog by Meera Singh",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && npx pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.1.4",
+    "@astrojs/mdx": "^7.0.4",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/rss": "^4.0.19"
+  },
+  "devDependencies": {
+    "pagefind": "^1.3.0"
+  }
+}

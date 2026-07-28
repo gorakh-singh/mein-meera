@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+export async function getStaticPaths() {
+  const essays = (await getCollection('essays', ({data}) => !data.draft)).map((p: any) => ({...p, collection: 'essays'}));
+  const travel = (await getCollection('travel', ({data}) => !data.draft)).map((p: any) => ({...p, collection: 'travel'}));
+  const recipes = (await getCollection('recipes', ({data}) => !data.draft)).map((p: any) => ({...p, collection: 'recipes'}));
+  const allPosts = [...essays, ...travel, ...recipes];
+
+  const uniqueTags = [...new Set(allPosts.flatMap(post => post.data.tags))];
+
+  return uniqueTags.map(tag => {
+    const filteredPosts = allPosts.filter(post => post.data.tags.includes(tag)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+<BaseLayout title={`Posts tagged with "${tag}"`} description={`Explore all posts tagged with ${tag}`}>
+  <div class="category-hero">
+    <div class="container">
+      <span class="eyebrow">Tag</span>
+      <h1>#{tag}</h1>
+    </div>
+  </div>
+
+  <div class="container category-grid">
+    <div class="grid">
+      {posts.map((post: any) => (
+        <PostCard post={post} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .category-hero {
+    text-align: center;
+    padding: var(--space-3xl) 0;
+    background: var(--color-parchment);
+    margin-bottom: var(--space-2xl);
+  }
+  .eyebrow {
+    display: block;
+    text-transform: uppercase;
+    font-size: var(--step--1);
+    color: var(--color-green);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-sm);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: var(--step-5);
+    margin-bottom: var(--space-md);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

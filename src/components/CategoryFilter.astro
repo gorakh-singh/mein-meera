@@ -1,0 +1,72 @@
+---
+export interface Props {
+  activeCategory?: string;
+}
+
+const { activeCategory = 'All' } = Astro.props;
+
+const categories = [
+  { name: 'All', path: '/' },
+  { name: 'Travel', path: '/travel' },
+  { name: 'Recipes', path: '/recipes' },
+  { name: 'Essays', path: '/essays' },
+];
+---
+
+<nav class="category-filter" aria-label="Category filter">
+  <ul>
+    {categories.map((cat) => (
+      <li>
+        <a 
+          href={cat.path} 
+          class={activeCategory.toLowerCase() === cat.name.toLowerCase() ? 'active' : ''}
+          aria-current={activeCategory.toLowerCase() === cat.name.toLowerCase() ? 'page' : undefined}
+        >
+          {cat.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .category-filter {
+    margin-bottom: var(--space-xl);
+  }
+  .category-filter ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+  .category-filter a {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    color: var(--color-ink);
+    background-color: var(--color-cream-dark);
+    transition: background-color var(--duration-fast) var(--ease-gentle), color var(--duration-fast) var(--ease-gentle);
+  }
+  .category-filter a:hover {
+    background-color: var(--color-terracotta-light);
+    color: var(--color-cream);
+  }
+  .category-filter a.active {
+    background-color: var(--color-terracotta);
+    color: var(--color-cream);
+  }
+  .category-filter a:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .category-filter a {
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,50 @@
+/* =============================================
+   MEIN MEERA — Utility Classes (sparingly)
+   ============================================= */
+
+/* Visually hidden (for screen readers) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Text alignment */
+.text-center { text-align: center; }
+
+/* Flow spacing (lobotomized owl) */
+.flow > * + * {
+  margin-top: var(--space-md);
+}
+
+.flow-lg > * + * {
+  margin-top: var(--space-xl);
+}
+
+/* Max-width containers */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.container--narrow {
+  max-width: var(--content-width);
+}
+
+.container--wide {
+  max-width: var(--wide-width);
+}
+
+/* Full bleed */
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}

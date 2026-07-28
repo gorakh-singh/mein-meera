@@ -1,0 +1,151 @@
+---
+---
+<header role="banner" class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo">Mein Meera</a>
+    
+    <input type="checkbox" id="mobile-menu-toggle" class="menu-toggle-checkbox" aria-hidden="true" />
+    <label for="mobile-menu-toggle" class="menu-toggle-label" aria-label="Toggle mobile menu">
+      <span class="hamburger"></span>
+    </label>
+
+    <nav aria-label="Main navigation" class="main-nav">
+      <ul>
+        <li><a href="/travel">Travel</a></li>
+        <li><a href="/recipes">Recipes</a></li>
+        <li><a href="/essays">Essays</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+    
+    <button class="search-trigger" id="search-trigger" aria-label="Open search">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    padding: var(--space-md) var(--gutter);
+    border-bottom: var(--border-subtle) solid var(--color-cream-dark);
+    position: relative;
+  }
+  .header-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+  }
+  .main-nav a {
+    font-family: var(--font-ui);
+    color: var(--color-ink);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: var(--space-xs);
+  }
+  .main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-ink);
+    transition: width var(--duration-medium) var(--ease-gentle);
+  }
+  .main-nav a:hover::after {
+    width: 100%;
+  }
+  .search-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-ink);
+  }
+  .search-trigger:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 4px;
+  }
+  .menu-toggle-checkbox, .menu-toggle-label {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .menu-toggle-label {
+      display: block;
+      cursor: pointer;
+      order: 3;
+    }
+    .hamburger {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--color-ink);
+      position: relative;
+    }
+    .hamburger::before, .hamburger::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: var(--color-ink);
+    }
+    .hamburger::before { top: -6px; }
+    .hamburger::after { bottom: -6px; }
+    
+    .main-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--color-cream);
+      padding: var(--space-md);
+      z-index: 10;
+      border-bottom: var(--border-subtle) solid var(--color-cream-dark);
+    }
+    .main-nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+    .menu-toggle-checkbox:checked ~ .main-nav {
+      display: block;
+    }
+    .search-trigger {
+      order: 2;
+      margin-left: auto;
+      margin-right: var(--space-md);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .main-nav a::after {
+      transition: none;
+    }
+  }
+</style>
+<script>
+  document.getElementById('search-trigger')?.addEventListener('click', () => {
+    const searchModal = document.getElementById('search-modal');
+    if (searchModal) {
+      searchModal.setAttribute('aria-hidden', 'false');
+      searchModal.querySelector('input')?.focus();
+    }
+  });
+</script>

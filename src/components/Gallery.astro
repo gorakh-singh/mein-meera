@@ -1,0 +1,56 @@
+---
+export interface Props {
+  images: (string | { src: string; alt: string })[];
+}
+
+const { images } = Astro.props;
+
+// Normalize: accept plain strings or {src, alt} objects
+const normalizedImages = images.map((img, i) => {
+  if (typeof img === 'string') {
+    return { src: img, alt: `Gallery image ${i + 1}` };
+  }
+  return img;
+});
+---
+
+<div class="gallery" role="list">
+  {normalizedImages.map((img) => (
+    <div class="gallery-item" role="listitem" tabindex="0" data-lightbox-src={img.src} aria-label={`View larger: ${img.alt}`}>
+      <img src={img.src} alt={img.alt} loading="lazy" />
+    </div>
+  ))}
+</div>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-md);
+    margin: var(--space-2xl) 0;
+  }
+  .gallery-item {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+  }
+  .gallery-item:focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 2px;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-gentle);
+  }
+  .gallery-item:hover img {
+    transform: scale(1.03);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-item img { transition: none; }
+    .gallery-item:hover img { transform: none; }
+  }
+</style>

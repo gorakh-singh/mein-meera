@@ -1,0 +1,8 @@
+---
+import CategoryLayout from '../../layouts/CategoryLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('recipes', ({data}) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<CategoryLayout title="Recipes" description="From my kitchen to yours." collection="recipes" posts={sortedPosts} />

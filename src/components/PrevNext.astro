@@ -1,0 +1,69 @@
+---
+export interface Props {
+  prev?: { id: string; data: { title: string } };
+  next?: { id: string; data: { title: string } };
+  collection: string;
+}
+
+const { prev, next, collection } = Astro.props;
+---
+
+<nav class="prev-next" aria-label="Pagination">
+  {prev ? (
+    <a href={`/${collection}/${prev.id}/`} class="nav-link prev">
+      <span class="eyebrow">Previous</span>
+      <span class="title">&larr; {prev.data.title}</span>
+    </a>
+  ) : <div />}
+  
+  {next ? (
+    <a href={`/${collection}/${next.id}/`} class="nav-link next">
+      <span class="eyebrow">Next</span>
+      <span class="title">{next.data.title} &rarr;</span>
+    </a>
+  ) : <div />}
+</nav>
+
+<style>
+  .prev-next {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin: var(--space-2xl) 0;
+    border-top: var(--border-subtle);
+    border-bottom: var(--border-subtle);
+  }
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-md);
+    text-decoration: none;
+    color: var(--color-ink);
+    transition: background-color var(--duration-fast) var(--ease-gentle);
+  }
+  .nav-link:hover {
+    background-color: var(--color-cream-dark);
+  }
+  .nav-link.next {
+    text-align: right;
+  }
+  .nav-link:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: -2px;
+  }
+  .eyebrow {
+    font-family: var(--font-ui);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-green);
+    margin-bottom: var(--space-xs);
+  }
+  .title {
+    font-family: var(--font-display);
+    font-size: var(--text-body);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-link { transition: none; }
+  }
+</style>

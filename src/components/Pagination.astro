@@ -1,0 +1,60 @@
+---
+export interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl: string;
+}
+
+const { currentPage, totalPages, baseUrl } = Astro.props;
+const prevUrl = currentPage > 1 ? `${baseUrl}${currentPage - 1 === 1 ? '' : `/${currentPage - 1}`}` : null;
+const nextUrl = currentPage < totalPages ? `${baseUrl}/${currentPage + 1}` : null;
+---
+
+<nav class="pagination" aria-label="Pagination">
+  {prevUrl ? (
+    <a href={prevUrl} class="nav-arrow">&larr; Prev</a>
+  ) : (
+    <span class="nav-arrow disabled">&larr; Prev</span>
+  )}
+  
+  <div class="page-numbers">
+    Page {currentPage} of {totalPages}
+  </div>
+
+  {nextUrl ? (
+    <a href={nextUrl} class="nav-arrow">Next &rarr;</a>
+  ) : (
+    <span class="nav-arrow disabled">Next &rarr;</span>
+  )}
+</nav>
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xl);
+    margin: var(--space-3xl) 0;
+    font-family: var(--font-ui);
+  }
+  .nav-arrow {
+    text-decoration: none;
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+  .nav-arrow:hover:not(.disabled) {
+    text-decoration: underline;
+  }
+  .nav-arrow.disabled {
+    color: var(--color-ink-muted);
+    cursor: not-allowed;
+  }
+  .nav-arrow:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 4px;
+  }
+  .page-numbers {
+    color: var(--color-ink-light);
+    font-size: var(--text-small);
+  }
+</style>

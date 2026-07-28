@@ -1,0 +1,8 @@
+---
+import CategoryLayout from '../../layouts/CategoryLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('travel', ({data}) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<CategoryLayout title="On the Road" description="Stories and tips from travels around the world." collection="travel" posts={sortedPosts} />

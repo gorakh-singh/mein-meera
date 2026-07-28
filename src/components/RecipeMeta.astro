@@ -1,0 +1,65 @@
+---
+export interface Props {
+  serves: string;
+  prepTime: string;
+  cookTime: string;
+  difficulty: string;
+}
+
+const { serves, prepTime, cookTime, difficulty } = Astro.props;
+---
+
+<div class="recipe-meta">
+  <div class="meta-item">
+    <span class="label">Serves</span>
+    <span class="val">{serves}</span>
+  </div>
+  <div class="meta-item">
+    <span class="label">Prep</span>
+    <span class="val">{prepTime}</span>
+  </div>
+  <div class="meta-item">
+    <span class="label">Cook</span>
+    <span class="val">{cookTime}</span>
+  </div>
+  <div class="meta-item">
+    <span class="label">Difficulty</span>
+    <span class="val">{difficulty}</span>
+  </div>
+</div>
+
+<style>
+  .recipe-meta {
+    display: flex;
+    flex-wrap: wrap;
+    border-top: var(--border-subtle) solid var(--color-cream-dark);
+    border-bottom: var(--border-subtle) solid var(--color-cream-dark);
+    padding: var(--space-md) 0;
+    margin: var(--space-xl) 0;
+    gap: var(--space-md);
+  }
+  .meta-item {
+    flex: 1 1 20%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-right: var(--border-subtle) solid var(--color-cream-dark);
+  }
+  .meta-item:last-child {
+    border-right: none;
+  }
+  .label {
+    font-family: var(--font-ui);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-green);
+    margin-bottom: var(--space-xs);
+  }
+  .val {
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+</style>

@@ -1,0 +1,83 @@
+---
+export interface Props {
+  ingredients: {
+    group?: string;
+    items: string[];
+  }[];
+}
+
+const { ingredients } = Astro.props;
+---
+
+<div class="ingredients-list">
+  <h2>Ingredients</h2>
+  {ingredients.map(group => (
+    <div class="ingredient-group">
+      {group.group && <h3>{group.group}</h3>}
+      <ul>
+        {group.items.map(item => (
+          <li>
+            <label class="ingredient-label">
+              <input type="checkbox" class="ingredient-checkbox" />
+              <span class="ingredient-text">{item}</span>
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<style>
+  .ingredients-list {
+    background-color: var(--color-cream-dark);
+    padding: var(--space-xl);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--space-2xl);
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    margin: 0 0 var(--space-md);
+    color: var(--color-ink);
+  }
+  .ingredient-group {
+    margin-bottom: var(--space-md);
+  }
+  h3 {
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    font-weight: 600;
+    margin: 0 0 var(--space-sm);
+    color: var(--color-ink);
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    margin-bottom: var(--space-sm);
+  }
+  .ingredient-label {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-ink);
+  }
+  .ingredient-checkbox {
+    margin-top: 5px;
+    accent-color: var(--color-terracotta);
+  }
+  .ingredient-checkbox:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+  .ingredient-checkbox:checked + .ingredient-text {
+    text-decoration: line-through;
+    color: var(--color-ink-muted);
+  }
+</style>

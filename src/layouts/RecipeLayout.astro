@@ -1,0 +1,132 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import RecipeMeta from '../components/RecipeMeta.astro';
+import IngredientsList from '../components/IngredientsList.astro';
+import PrevNext from '../components/PrevNext.astro';
+import RelatedPosts from '../components/RelatedPosts.astro';
+import { getRecipeJsonLd } from '../utils/structured-data';
+import { getCollection } from 'astro:content';
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const recipes = await getCollection('recipes', ({ data }) => !data.draft);
+const sorted = recipes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const currentIndex = sorted.findIndex((p: any) => p.id === entry.id);
+const next = currentIndex > 0 ? sorted[currentIndex - 1] : undefined;
+const prev = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : undefined;
+
+const related = sorted
+  .filter((p: any) => p.id !== entry.id && p.data.tags.some((t: string) => entry.data.tags.includes(t)))
+  .slice(0, 3);
+
+const jsonLd = getRecipeJsonLd({
+  ...entry.data,
+  url: Astro.url.href,
+});
+---
+<BaseLayout title={`${entry.data.title} — Mein Meera`} description={entry.data.description} image={entry.data.heroUrl} article={true}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <article>
+    <!-- Hero -->
+    <div class="post-hero">
+      <img class="post-hero__image" src={entry.data.heroUrl} alt="" loading="eager" />
+      <div class="post-hero__overlay"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="post-header">
+      <span class="post-header__eyebrow">
+        <a href="/recipes/">From the kitchen</a>
+      </span>
+      <h1 class="post-header__title">{entry.data.title}</h1>
+      <p class="post-header__place">{entry.data.description}</p>
+    </header>
+
+    <!-- Recipe meta strip -->
+    <div class="meta-wrap">
+      <RecipeMeta
+        serves={entry.data.serves}
+        prepTime={entry.data.prepTime}
+        cookTime={entry.data.cookTime}
+        difficulty={entry.data.difficulty}
+      />
+      <div class="print-action">
+        <button class="print-btn" onclick="window.print()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print this recipe
+        </button>
+      </div>
+    </div>
+
+    <!-- Two-column: ingredients + method -->
+    <div class="recipe-body">
+      <div class="recipe-columns">
+        <aside class="recipe-ingredients">
+          <IngredientsList ingredients={entry.data.ingredients} />
+        </aside>
+        <div class="recipe-method">
+          <h2>Method</h2>
+          <ol>
+            {entry.data.method.map((step: string) => (
+              <li>{step}</li>
+            ))}
+          </ol>
+
+          {entry.data.notes && (
+            <div class="recipe-notes">
+              <strong>Cook's notes:</strong> {entry.data.notes}
+            </div>
+          )}
+
+          <!-- Story/headnote from MDX body -->
+          <div class="prose" data-pagefind-body>
+            <Content />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="post-tags">
+      {entry.data.tags.map((tag: string) => (
+        <a href={`/tags/${tag}/`} class="post-tag">{tag}</a>
+      ))}
+    </div>
+
+    <!-- Prev/Next -->
+    <div class="nav-wrap">
+      <PrevNext prev={prev} next={next} collection="recipes" />
+    </div>
+
+    <!-- Related -->
+    {related.length > 0 && (
+      <div class="related-wrap">
+        <RelatedPosts posts={related} collection="recipes" />
+      </div>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .meta-wrap {
+    max-width: var(--wide-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .print-action {
+    text-align: center;
+    margin: var(--space-lg) 0 var(--space-xl);
+  }
+  .nav-wrap,
+  .related-wrap {
+    max-width: var(--wide-width);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+</style>
