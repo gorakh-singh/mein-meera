@@ -16,9 +16,10 @@ export interface Props {
 const { recipe } = Astro.props;
 const { title, description, heroUrl, cookTime, difficulty } = recipe.data;
 const slug = recipe.id;
+const base = import.meta.env.BASE_URL;
 ---
 
-<a href={`/recipes/${slug}/`} class="recipe-card">
+<a href={`${base}recipes/${slug}/`} class="recipe-card">
   <div class="image-wrapper">
     <img src={heroUrl} alt="" loading="lazy" />
   </div>

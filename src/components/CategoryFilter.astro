@@ -4,12 +4,13 @@ export interface Props {
 }
 
 const { activeCategory = 'All' } = Astro.props;
+const base = import.meta.env.BASE_URL;
 
 const categories = [
-  { name: 'All', path: '/' },
-  { name: 'Travel', path: '/travel' },
-  { name: 'Recipes', path: '/recipes' },
-  { name: 'Essays', path: '/essays' },
+  { name: 'All', path: base },
+  { name: 'Travel', path: `${base}travel/` },
+  { name: 'Recipes', path: `${base}recipes/` },
+  { name: 'Essays', path: `${base}essays/` },
 ];
 ---
 

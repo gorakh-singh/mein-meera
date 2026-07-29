@@ -6,18 +6,19 @@ export interface Props {
 }
 
 const { prev, next, collection } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
 <nav class="prev-next" aria-label="Pagination">
   {prev ? (
-    <a href={`/${collection}/${prev.id}/`} class="nav-link prev">
+    <a href={`${base}${collection}/${prev.id}/`} class="nav-link prev">
       <span class="eyebrow">Previous</span>
       <span class="title">&larr; {prev.data.title}</span>
     </a>
   ) : <div />}
   
   {next ? (
-    <a href={`/${collection}/${next.id}/`} class="nav-link next">
+    <a href={`${base}${collection}/${next.id}/`} class="nav-link next">
       <span class="eyebrow">Next</span>
       <span class="title">{next.data.title} &rarr;</span>
     </a>

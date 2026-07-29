@@ -11,6 +11,7 @@ import { getCollection } from 'astro:content';
 const { entry, collection } = Astro.props;
 const { Content } = await render(entry);
 const readingTime = getReadingTime(entry.body || '');
+const base = import.meta.env.BASE_URL;
 
 const allPosts = await getCollection(collection, ({ data }: any) => !data.draft);
 const sorted = allPosts.sort((a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -33,7 +34,7 @@ const related = sorted
     <!-- Post header -->
     <header class="post-header">
       <span class="post-header__eyebrow">
-        <a href={`/${collection}/`}>{collection}</a>
+        <a href={`${base}${collection}/`}>{collection}</a>
       </span>
       <h1 class="post-header__title">{entry.data.title}</h1>
       {collection === 'travel' && (
@@ -69,7 +70,7 @@ const related = sorted
     <!-- Tags -->
     <div class="post-tags">
       {entry.data.tags.map((tag: string) => (
-        <a href={`/tags/${tag}/`} class="post-tag">{tag}</a>
+        <a href={`${base}tags/${tag}/`} class="post-tag">{tag}</a>
       ))}
     </div>
 

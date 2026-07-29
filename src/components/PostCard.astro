@@ -22,9 +22,10 @@ const { post } = Astro.props;
 const { title, description, heroUrl, date } = post.data;
 const slug = post.id;
 const collection = post.collection;
+const base = import.meta.env.BASE_URL;
 ---
 
-<a href={`/${collection}/${slug}/`} class="post-card">
+<a href={`${base}${collection}/${slug}/`} class="post-card">
   <div class="image-wrapper">
     <img src={heroUrl} alt="" loading="lazy" />
   </div>

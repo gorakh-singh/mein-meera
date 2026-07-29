@@ -5,11 +5,10 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // ↓ Change these two lines before deploying to GitHub Pages
-  // site: 'https://YOUR-USERNAME.github.io',
-  // base: '/YOUR-REPO-NAME',
-  site: 'http://localhost:4321',
-  base: '/',
+  // ↓ Set site to your GitHub Pages URL, base to your repo name
+  // e.g. if your repo is github.com/meera/mein-meera → base: '/mein-meera'
+  site: 'https://gorakh-nath.github.io',
+  base: '/mein-meera',
 
   output: 'static',
 
