@@ -8,8 +8,8 @@ export default defineConfig({
   // ↓ Change these two lines before deploying to GitHub Pages
   // site: 'https://YOUR-USERNAME.github.io',
   // base: '/YOUR-REPO-NAME',
-  site: 'http://localhost:4321',
-  base: '/',
+  site: 'https://gorakh-singh.github.io',
+  base: '/mein-meera',
 
   output: 'static',
 
