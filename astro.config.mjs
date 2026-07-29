@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   // ↓ Set site to your GitHub Pages URL, base to your repo name
   // e.g. if your repo is github.com/meera/mein-meera → base: '/mein-meera'
-  site: 'https://gorakh-nath.github.io',
+  site: 'https://gorakh-singh.github.io',
   base: '/mein-meera',
 
   output: 'static',

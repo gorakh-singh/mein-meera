@@ -1,4 +1,4 @@
----
+﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CategoryFilter from '../components/CategoryFilter.astro';
 import FeaturedCard from '../components/FeaturedCard.astro';
@@ -19,7 +19,7 @@ const featured = latestPosts[0];
 const rest = latestPosts.slice(1);
 const recentTravel = travel.sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
 const recentRecipes = recipes.sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf());
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 <BaseLayout title="मेरी मीरा" description="सड़क से, रसोई से, और कहीं बीच में से नोट्स">
   <!-- 1. Hero -->
@@ -60,7 +60,7 @@ const base = import.meta.env.BASE_URL;
       <span class="eyebrow">From the kitchen</span>
       <div class="header-row">
         <h2 id="kitchen-heading" class="section-headline">Recent recipes</h2>
-        <a href={`${base}recipes/`} class="view-all">
+        <a href={`${base}/recipes/`} class="view-all">
           See all recipes
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
@@ -88,7 +88,7 @@ const base = import.meta.env.BASE_URL;
       <span class="eyebrow">On the road</span>
       <div class="header-row">
         <h2 id="travel-heading" class="section-headline">Recent travels</h2>
-        <a href={`${base}travel/`} class="view-all">
+        <a href={`${base}/travel/`} class="view-all">
           See all travel
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>

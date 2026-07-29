@@ -1,4 +1,4 @@
----
+﻿---
 import { render } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -11,7 +11,7 @@ import { getCollection } from 'astro:content';
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const recipes = await getCollection('recipes', ({ data }) => !data.draft);
 const sorted = recipes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -43,7 +43,7 @@ const jsonLd = getRecipeJsonLd({
     <!-- Header -->
     <header class="post-header">
       <span class="post-header__eyebrow">
-        <a href={`${base}recipes/`}>From the kitchen</a>
+        <a href={`${base}/recipes/`}>From the kitchen</a>
       </span>
       <h1 class="post-header__title">{entry.data.title}</h1>
       <p class="post-header__place">{entry.data.description}</p>
@@ -96,7 +96,7 @@ const jsonLd = getRecipeJsonLd({
     <!-- Tags -->
     <div class="post-tags">
       {entry.data.tags.map((tag: string) => (
-        <a href={`${base}tags/${tag}/`} class="post-tag">{tag}</a>
+        <a href={`${base}/tags/${tag}/`} class="post-tag">{tag}</a>
       ))}
     </div>
 
